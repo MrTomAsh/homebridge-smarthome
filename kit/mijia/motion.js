@@ -33,7 +33,7 @@ class Motion extends Base {
     let service;
     if (!accessory) {
       //init a new homekit accessory
-      let name = sid.substring(sid.length - 4);
+      let name = "Motion Sensor";//sid.substring(sid.length - 4);
       accessory = new PlatformAccessory(name, uuid, Accessory.Categories.SENSOR);
       accessory.getService(Service.AccessoryInformation)
         .setCharacteristic(Characteristic.Manufacturer, "Mijia")
@@ -51,9 +51,7 @@ class Motion extends Base {
     accessory.reachable = true;
     accessory.context.sid = sid;
     accessory.context.model = 'motion';
-    if (status != undefined) {
-      service.getCharacteristic(Characteristic.MotionDetected).updateValue('motion' == status);
-    }
+    service.getCharacteristic(Characteristic.MotionDetected).updateValue('motion' === status);
     this.setBatteryService(sid, voltage, accessory);
     if (!this.mijia.accessories[uuid]) {
       this.mijia.accessories[uuid] = accessory;

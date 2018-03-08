@@ -35,7 +35,7 @@ class MagnetAq2 extends Base {
     let service;
     if (!accessory) {
       //init a new homekit accessory
-      let name = sid.substring(sid.length - 4);
+      let name = "Contact Sensor"; //sid.substring(sid.length - 4);
       accessory = new PlatformAccessory(name, uuid, Accessory.Categories.SENSOR);
       accessory.getService(Service.AccessoryInformation)
         .setCharacteristic(Characteristic.Manufacturer, "Aqara")
@@ -53,7 +53,7 @@ class MagnetAq2 extends Base {
     accessory.reachable = true;
     accessory.context.sid = sid;
     accessory.context.model = 'sensor_magnet.aq2';
-    if (status == 'closed') {
+    if (status == 'close') {
       service.getCharacteristic(Characteristic.ContactSensorState).updateValue(Characteristic.ContactSensorState.CONTACT_DETECTED);
     } else {
       service.getCharacteristic(Characteristic.ContactSensorState).updateValue(Characteristic.ContactSensorState.CONTACT_NOT_DETECTED);

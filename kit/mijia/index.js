@@ -22,6 +22,7 @@ const SwitchAq2 = require('./switch.aq2');
 const HumidityV1 = require('./humidity.v1');
 const TemperatureV1 = require('./temperature.v1');
 const PressureV1 = require('./pressure.v1');
+const WLeakAq1 = require('./wleak.aq1');
 //wifi device
 const AirPurifier = require('./airpurifier');
 const Vacuum = require('./vacuum');
@@ -68,19 +69,21 @@ module.exports = (mijia) => {
   };
   devices['light'] = (mijia, config) => {
     new Yeelight(mijia, config);
-  }
+  };
   //aqara
   devices['sensor_magnet.aq2'] = new MagnetAq2(mijia);
   devices['sensor_motion.aq2'] = new MotionAq2(mijia);
+  devices['sensor_wleak.aq1'] = new WLeakAq1(mijia);
   devices['sensor_switch.aq2'] = new SwitchAq2(mijia);
   let humidityV1 = new HumidityV1(mijia);
   let temperatureV1 = new TemperatureV1(mijia);
+  let pressureV1 = new PressureV1(mijia);
   devices['weather.v1'] = {
     parseMsg: (json, rinfo) => {
       humidityV1.parseMsg(json, rinfo);
       temperatureV1.parseMsg(json, rinfo);
-      PressureV1.parseMsg(json, rinfo);
+      pressureV1.parseMsg(json, rinfo);
     }
-  }
+  };
   return devices;
 };
