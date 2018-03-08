@@ -9,6 +9,7 @@
 ## mijia & broadlink & more...
 
 Thanks for 
+0. [rench](https://github.com/rench)(the author of [homebridge-smarthome](https://github.com/rench/homebridge-smarthome))
 1. [snOOrz](https://github.com/snOOrz)(the author of [homebridge-aqara](https://github.com/snOOrz/homebridge-aqara))
 2. [YinHangCode](https://github.com/YinHangCode/homebridge-mi-aqara)(the author of [homebridge-mi-aqara](https://github.com/YinHangCode/homebridge-mi-aqara))
 3. [aholstenson](https://github.com/aholstenson/miio)(the author of [miio](https://github.com/aholstenson/miio))
@@ -36,6 +37,7 @@ Thanks for
 ![](http://7fv93h.com1.z0.glb.clouddn.com/SmokeDetector.jpg)
 ![](http://7fv93h.com1.z0.glb.clouddn.com/NatgasDetector.jpg)
 ![](http://7fv93h.com1.z0.glb.clouddn.com/ElectricCurtain.jpg)
+![](https://image.ibb.co/kjtNXn/Xiaomi_Aqara_Water_Leak_Sensor_Smart_Leaking_Alarm_Immersion_Monitoring_IP67_Waterproof_Zig_Bee_Wireless_Connection_jpg_640x640.jpg)
 
 ### Wifi
 ![](http://7fv93h.com1.z0.glb.clouddn.com/AirPurifier.jpg)
@@ -68,6 +70,7 @@ Thanks for
 20. Aqara Magent(ContactSensor)
 21. Aqara TemperatureAndHumiditySensorAndPressure(HumiditySensor/TemperatureSensor/`CommunityTypes.AtmosphericPressureSensor`)
 22. Aqara Motion(MotionSensor)
+23. Aqara WaterLeak(LeakSensor)
 
 ## Broadlink Accessory for homebridge.
 ![](http://7fv93h.com1.z0.glb.clouddn.com/Broadlink_MP1.jpg)
@@ -90,9 +93,62 @@ If you are using Raspberry Pi, please read [Running-HomeBridge-on-a-Raspberry-Pi
 
 ## Configuration
 1. Open Aqara gateway's settings, enable [local network protocol](https://github.com/louisZL/lumi-gateway-local-api).  
-Please follow the steps in this thread: http://bbs.xiaomi.cn/t-13198850. It's in Chinese so you might need a translator to read it.  
-2. To control the devices, put gateway's MAC address (lower case without colon) and password to ~/.homebridge/config.json.  
-3. How to get device ip and token? see [miio](https://github.com/aholstenson/miio/blob/master/docs/protocol.md).
+Please follow the steps in this thread: http://bbs.xiaomi.cn/t-13198850. It's in Chinese so you might need a translator to read it or follow the steps. 
+2. You'll need an android device or an emulator (I've used BlueStack and it works fine for me).
+3. Install Mi app on the Android device and set up your gateway.
+4. Click in the top right corner. 
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/395a50f6f87dc60020b3ee294a852a56.jpg)
+5. Click About tab
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/e5810d499e74af993c4268d332b4541e.jpg)
+6. Click few times bottom area to open the programmer mode
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/18f753f48051244ed6647c777466c6d2.jpg)
+7. Click the LAN protocol 
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/103173ae850d17a70fd6658073472bfb.jpg)
+8. Open the LAN protocol and remember the password (this goes to your config.json file)
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/ead0e225d236da11e311d27c06aee33b.jpg)
+9. Click Information about the gate
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/f8732c6e298d26f72f7d1fa6a82ed934.jpg)
+10. To control the devices, put gateway's MAC address (lower case without colon) and password to ~/.homebridge/config.json.  
+![](http://cdn.fds.api.xiaomi.com/b2c-bbs/cn/attachment/14fc4c21e2aa0364d24440db7acdb5d0.jpg)
+11. How to get device ip and token? see [miio](https://github.com/aholstenson/miio/blob/master/docs/protocol.md).
+
+Basic (enough for Gateway and ZigBee devices) config.json
+```
+{
+  "bridge": {
+    "name": "SmartHome",
+    "username": "CC:22:3D:E3:CE:30",
+    "port": 51826,
+    "pin": "031-45-154"
+  },
+    "platforms": [
+    {
+      "platform": "smarthome-mijia",
+      "web": {
+        "port": 8888
+      },
+      "mijia": {
+        "sids": [
+          "34ce0088faed"
+        ],
+        "passwords": [
+          "75ED5A235C4A44D4"
+        ],
+        "devices": []
+      }
+    },
+    {
+      "platform": "smarthome-broadlink",
+      "broadlink": {
+        "devices": []
+      }
+    }
+  ]
+}
+
+```
+
+Advanced (for WiFi and BroadLink devices) config.json
 ```
 {
   "bridge": {
@@ -170,6 +226,14 @@ Please follow the steps in this thread: http://bbs.xiaomi.cn/t-13198850. It's in
 homebridge -D  
 
 ## Version Logs 
+
+### 1.1.4
+
+1. `miija` fix & improved magnet sensors
+2. `aqara` fix & improved magnet sensors
+3. `mijia` improved motion sensors
+4. `aqara` improved motion sensors
+5. `aqara` disabling pressure form TemperatureAndHumiditySensorAndPressure as it's not supported yet by HomeKit
 
 ### 1.1.3
 1. `mijia` fix purifier type error.
