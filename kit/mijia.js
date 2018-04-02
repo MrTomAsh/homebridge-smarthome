@@ -18,6 +18,10 @@ class Mijia {
   // config may be null
   // api may be null if launched from old homebridge version
   constructor(log, config, api) {
+    if(!config || !config['mijia']){
+      log("Mijia initialization skipped. Missing configuration data.");
+      return;
+    }
     this.PlatformAccessory = PlatformAccessory;
     this.Accessory = Accessory;
     this.Service = Service;
@@ -62,7 +66,7 @@ class Mijia {
   }
   /**
    * static method to export hap properties
-   * @param {*homebridge} homebridge 
+   * @param {*homebridge} homebridge
    */
   static init(homebridge) {
     return new Promise((resolve, reject) => {
@@ -144,7 +148,7 @@ class Mijia {
 
   /**
    * configure cached accessory
-   * @param {*} accessory 
+   * @param {*} accessory
    */
   configureAccessory(accessory) {
     accessory.reachable = true;
@@ -158,7 +162,7 @@ class Mijia {
   }
 
   /**
- * discover wifi deivce 
+ * discover wifi deivce
  */
   discoverWifiDevice() {
     for (let key in this.devices) {
@@ -177,8 +181,8 @@ class Mijia {
   }
   /**
    * discover zigbee deivce via gateway
-   * @param {*gateway ip} ip 
-   * @param {*gateway port} port 
+   * @param {*gateway ip} ip
+   * @param {*gateway port} port
    */
   discoverZigbeeDevice(ip, port) {
     let cmd_get_id_list = { cmd: 'get_id_list' };
@@ -190,9 +194,9 @@ class Mijia {
 
   /**
    * send data via upd socket
-   * @param {*msg} msg 
-   * @param {*ip} ip 
-   * @param {*port} port 
+   * @param {*msg} msg
+   * @param {*ip} ip
+   * @param {*port} port
    */
   sendMsg(msg, ip, port) {
     this.log.debug('send msg->%s', util.inspect(msg));
@@ -206,7 +210,7 @@ class Mijia {
 
   /**
  * send data via upd socket
- * @param {*msg} msg 
+ * @param {*msg} msg
  * @param {*sid} sid
  */
   sendMsgToSid(msg, sid) {
@@ -231,8 +235,8 @@ class Mijia {
   }
   /**
    * parse msg from udp socket
-   * @param {*msg} msg 
-   * @param {*remoteaddr} rinfo 
+   * @param {*msg} msg
+   * @param {*remoteaddr} rinfo
    */
   parseMsg(msg, rinfo) {
     let json;
@@ -311,8 +315,8 @@ class Mijia {
   }
   /**
    * parse zigbee devices msg
-   * @param {*gateway json msg} json 
-   * @param {*remote info} rinfo 
+   * @param {*gateway json msg} json
+   * @param {*remote info} rinfo
    */
   parseDevice(json, rinfo) {
     //when the device status changed , will recive data
@@ -340,7 +344,7 @@ class Mijia {
   }
   /**
    * generate gateway write Key
-   * @param {*gateway id} sid 
+   * @param {*gateway id} sid
    */
   generateKey(sid) {
     let gateway = this.devices[sid];

@@ -11,8 +11,8 @@ class Switch extends Base {
   }
   /**
  * parse the gateway json msg
- * @param {*json} json 
- * @param {*remoteinfo} rinfo 
+ * @param {*json} json
+ * @param {*remoteinfo} rinfo
  */
   parseMsg(json, rinfo) {
     let { cmd, model, sid } = json;
@@ -23,9 +23,9 @@ class Switch extends Base {
   }
   /**
    * set up Switch(mijia Switch)
-   * @param {*device id} sid 
-   * @param {*device voltage} voltage 
-   * @param {*device status} status 
+   * @param {*device id} sid
+   * @param {*device voltage} voltage
+   * @param {*device status} status
    */
   setSwitch(sid, voltage, status) {
     let uuid = UUIDGen.generate('Mijia-Switch@' + sid);
@@ -57,6 +57,8 @@ class Switch extends Base {
         event.updateValue(Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS); //0
       } else if (status == 'double_click') {
         event.updateValue(Characteristic.ProgrammableSwitchEvent.DOUBLE_PRESS); //1
+      } else if (status == 'long_click_press') {
+          event.updateValue(Characteristic.ProgrammableSwitchEvent.LONG_PRESS); //2
       }
     }
     this.setBatteryService(sid, voltage, accessory);

@@ -7,6 +7,10 @@ class Broadlink {
   // config may be null
   // api may be null if launched from old homebridge version
   constructor(log, config, api) {
+    if(!config || !config['broadlink']){
+      log("Broadlink initialization skipped. Missing configuration data.");
+      return;
+    }
     this.PlatformAccessory = PlatformAccessory;
     this.Accessory = Accessory;
     this.Service = Service;
@@ -38,7 +42,7 @@ class Broadlink {
   }
   /**
   * configure cached accessory
-  * @param {*} accessory 
+  * @param {*} accessory
   */
   configureAccessory(accessory) {
     accessory.reachable = true;

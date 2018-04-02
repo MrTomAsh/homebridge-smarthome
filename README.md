@@ -223,7 +223,21 @@ Advanced (for WiFi and BroadLink devices) config.json
 ```
     
 ## Run it
-homebridge -D  
+
+Debug mode:
+
+`homebridge -D`   
+
+Regular mode 
+
+`homebridge`
+
+
+
+## Troubleshooting 
+
+- If you receive an `{"error":"Invalid key"}` in your log (in debug mode) while trying to control the gateway light, you should generate the key again using an Android Phone or alternatively an emulator such as [bluestacks](https://www.bluestacks.com). In some instances there is an issue with keys being generated using the iOS application.
+
 
 ## Version Logs 
 
