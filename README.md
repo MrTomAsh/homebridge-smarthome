@@ -1,5 +1,5 @@
 # homebridge plugin and webapp for smarthome
-[![npm package](https://nodei.co/npm/homebridge-smarthome.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/homebridge-smarthome/)
+[![npm package](https://nodei.co/npm/homebridge-smarthome-plus.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/homebridge-smarthome-plus/)
 
 [![npm](https://img.shields.io/npm/dt/homebridge-smarthome.svg)](https://www.npmjs.com/package/homebridge-smarthome) 
 [![npm](https://img.shields.io/npm/v/homebridge-smarthome.svg)](https://www.npmjs.com/package/homebridge-smarthome)
