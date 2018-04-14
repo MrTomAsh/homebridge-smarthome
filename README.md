@@ -37,7 +37,9 @@ Thanks for
 ![](http://7fv93h.com1.z0.glb.clouddn.com/SmokeDetector.jpg)
 ![](http://7fv93h.com1.z0.glb.clouddn.com/NatgasDetector.jpg)
 ![](http://7fv93h.com1.z0.glb.clouddn.com/ElectricCurtain.jpg)
-![](https://image.ibb.co/kjtNXn/Xiaomi_Aqara_Water_Leak_Sensor_Smart_Leaking_Alarm_Immersion_Monitoring_IP67_Waterproof_Zig_Bee_Wireless_Connection_jpg_640x640.jpg)
+![](https://raw.githubusercontent.com/MrTomAsh/homebridge-smarthome/master/images/WaterLeakDetector.jpg)
+![](https://raw.githubusercontent.com/MrTomAsh/homebridge-smarthome/master/images/XiaomiPhilipsBulb.jpg)
+![](https://raw.githubusercontent.com/MrTomAsh/homebridge-smarthome/master/images/XiaomiPhilipsBulbCandle.jpg)
 
 ### Wifi
 ![](http://7fv93h.com1.z0.glb.clouddn.com/AirPurifier.jpg)
@@ -71,6 +73,7 @@ Thanks for
 21. Aqara TemperatureAndHumiditySensorAndPressure(HumiditySensor/TemperatureSensor/`CommunityTypes.AtmosphericPressureSensor`)
 22. Aqara Motion(MotionSensor)
 23. Aqara WaterLeak(LeakSensor)
+24. Xiaomi Philips Bulb (and Candle Bulb)
 
 ## Broadlink Accessory for homebridge.
 ![](http://7fv93h.com1.z0.glb.clouddn.com/Broadlink_MP1.jpg)
@@ -220,6 +223,22 @@ Advanced (for WiFi and BroadLink devices) config.json
     }
   ]
 }
+```
+To set Xiaomi Philips Bulbs you'll most likely need a token as auto-token doesn't work properly on them. 
+To obtain a token you'll need to reset the bulb to it's factory settings (delete it from Mi Home app and tur on it off and on 5 times as it will start blinking) and connect your PC to it's WiFi called philips-light_xxx and run in your terminal command "miio discover --sync" ([miio](https://github.com/aholstenson/miio) is required).
+When sorted all you have to do it's add it to your config.json file like follow:
+```
+"devices": [
+(...)
+          {
+            "sid": "Your own light name",
+            "type": "wifi",
+            "model": "philips.light",
+            "device_id": "YOUR DEVICE ID",
+            "token": "YOUR DEVICE TOKEN"
+          }
+(...)
+        ]
 ```
     
 ## Run it

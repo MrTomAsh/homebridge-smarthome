@@ -29,6 +29,7 @@ const Vacuum = require('./vacuum');
 const PowerPlug = require('./powerplug');
 const PowerStrip = require('./powerstrip');
 const Yeelight = require('./yeelight');
+const PhilipsLight = require('./philips.light');
 module.exports = (mijia) => {
   let devices = {};
   devices.gateway = new Gateway(mijia);
@@ -69,6 +70,9 @@ module.exports = (mijia) => {
   };
   devices['light'] = (mijia, config) => {
     new Yeelight(mijia, config);
+  };
+  devices['philips.light'] = (mijia, config) => {
+    new PhilipsLight(mijia, config);
   };
   //aqara
   devices['sensor_magnet.aq2'] = new MagnetAq2(mijia);
