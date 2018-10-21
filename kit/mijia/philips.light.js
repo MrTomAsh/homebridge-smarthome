@@ -23,7 +23,7 @@ class PhilipsLight extends Base {
    * discover philips on the localnetwork
    */
   discover() {
-
+      
     this.mijia.log.debug('try to discover ' + this.model);
     let browser = miio.browse(); //require a new browse
     browser.on('available', (reg) => {
@@ -59,9 +59,9 @@ class PhilipsLight extends Base {
     });
   }
   /**
-   * set up Lightbulb Service 
-   * @param {* reg} reg 
-   * @param {* device} device 
+   * set up Lightbulb Service
+   * @param {* reg} reg
+   * @param {* device} device
    */
   setLightbulb(reg, device) {
     this.sid = reg.id;
@@ -84,7 +84,7 @@ class PhilipsLight extends Base {
       this.service.addCharacteristic(Characteristic.Brightness);
       this.service.addCharacteristic(Characteristic.ColorTemperature);
 
-      this.accessory.addService(service, name);
+      this.accessory.addService(this.service, name);
     } else {
       this.service = this.accessory.getService(Service.Lightbulb);
     }
@@ -122,7 +122,7 @@ class PhilipsLight extends Base {
                   callback(new Error(result[0]));
               }
           }).catch(function(err) {
-              this.mijia.error("Setting Power Error: " + err);
+              this.mijia.log.error("Setting Power Error: " + err);
               callback(err);
           });
       }
@@ -131,12 +131,13 @@ class PhilipsLight extends Base {
   getPower(callback) {
       this.mijia.log.debug(`get philips power`);
       let device = this.devices[this.sid];
+      if(device)
       device.call("get_prop", ["power"]).then( result => {
           let power = result.indexOf("on") === 0;
           callback(null, power);
       }).catch(function(err) {
-         this.mijia.error("Getting Power Error: " + err);
-          callback(err);
+          this.mijia.log.error("Getting Power Error: " + err);
+          callback(err, null);
       });
   }
 
@@ -151,23 +152,23 @@ class PhilipsLight extends Base {
                   callback(new Error(result[0]));
               }
           }).catch(function(err) {
-              this.mijia.error("Setting Brightness Error: " + err);
+              this.mijia.log.error("Setting Brightness Error: " + err);
               callback(err);
           });
       }
       this.accessory.context.lastBrightness = value;
-      callback();
   }
 
   getBrightness(callback) {
       this.mijia.log.debug(`get philips brightness`);
       let device = this.devices[this.sid];
+      if(device)
       device.call("get_prop", ["bright"]).then( result => {
           this.accessory.context.lastBrightness = result;
           callback(null, result[0])
       }).catch(function(err) {
-          this.mijia.error("Getting Brightness Error: " + err);
-          callback(err);
+          this.mijia.log.error("Getting Brightness Error: " + err);
+          callback(err, null);
       });
   }
 
@@ -185,8 +186,8 @@ class PhilipsLight extends Base {
               this.accessory.context.lastColorTemperature = value;
               callback(null, result[0]);
           }).catch(function(err) {
-              this.mijia.error("Setting ColorTemperature Error: " + err);
-              callback(err);
+              this.mijia.log.error("Setting ColorTemperature Error: " + err);
+              callback(err, null);
           });
       }
 
@@ -195,13 +196,14 @@ class PhilipsLight extends Base {
   getColorTemperature(callback) {
       this.mijia.log.debug(`get philips color temperature`);
       let device = this.devices[this.sid];
+      if(device)
       device.call("get_prop", ["cct"]).then( result => {
           let value = 140 + (360 - Math.round((500 - 140) * (result / 100)));
           this.accessory.context.lastColorTemperature = value;
           callback(null, value);
       }).catch(function(err) {
-          this.mijia.error("Getting etColorTemperature Error: " + err);
-          callback(err);
+          this.mijia.log.error("Getting etColorTemperature Error: " + err);
+          callback(err, null);
       });
   }
 }

@@ -226,6 +226,10 @@ class Mijia {
       return;
     }
     let { ip, port } = gateway;
+    if(!Number.isInteger(port) || port < 0 || port > 65536) {
+      this.log.warn('Wrong port number:' + port );
+      return;
+    }
     if (typeof msg == 'string') {
       this.udpScoket.send(msg, 0, msg.length, port, ip);
     } else {

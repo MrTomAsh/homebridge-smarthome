@@ -23,6 +23,7 @@ const HumidityV1 = require('./humidity.v1');
 const TemperatureV1 = require('./temperature.v1');
 const PressureV1 = require('./pressure.v1');
 const WLeakAq1 = require('./wleak.aq1');
+const SwitchAqWDl = require('./switch.aq.wirelessdoublerocket');
 //wifi device
 const AirPurifier = require('./airpurifier');
 const Vacuum = require('./vacuum');
@@ -30,6 +31,7 @@ const PowerPlug = require('./powerplug');
 const PowerStrip = require('./powerstrip');
 const Yeelight = require('./yeelight');
 const PhilipsLight = require('./philips.light');
+const CubeAq = require('./cube.aq');
 module.exports = (mijia) => {
   let devices = {};
   devices.gateway = new Gateway(mijia);
@@ -79,6 +81,8 @@ module.exports = (mijia) => {
   devices['sensor_motion.aq2'] = new MotionAq2(mijia);
   devices['sensor_wleak.aq1'] = new WLeakAq1(mijia);
   devices['sensor_switch.aq2'] = new SwitchAq2(mijia);
+  devices['sensor_cube.aqgl01'] = new CubeAq(mijia);
+  devices['remote.b286acn01'] = new SwitchAqWDl(mijia);
   let humidityV1 = new HumidityV1(mijia);
   let temperatureV1 = new TemperatureV1(mijia);
   let pressureV1 = new PressureV1(mijia);
